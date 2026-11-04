@@ -1,0 +1,180 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.5;
+  color: #222;
+  background: #f7f7f5;
+}
+
+a {
+  color: #1f4e5f;
+  text-decoration: none;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 32px;
+  background: #fff;
+  border-bottom: 1px solid #e3e3e0;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1f4e5f;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  border: 1px solid #1f4e5f;
+  border-radius: 6px;
+  background: #1f4e5f;
+  color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #173b49;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-outline {
+  background: transparent;
+  color: #1f4e5f;
+}
+
+.btn-outline:hover {
+  background: #e8f0f3;
+}
+
+.hero {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 100px 20px;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 48px;
+  margin: 0 0 16px;
+}
+
+.hero p {
+  font-size: 18px;
+  color: #555;
+}
+
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 48px 20px;
+}
+
+.page-message {
+  padding: 48px 20px;
+  text-align: center;
+}
+
+.form-page {
+  display: flex;
+  justify-content: center;
+  padding: 48px 20px;
+}
+
+.form-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 28px;
+  background: #fff;
+  border: 1px solid #e3e3e0;
+  border-radius: 8px;
+}
+
+.form-card h2 {
+  margin-top: 0;
+}
+
+.form-card label {
+  display: block;
+  margin: 14px 0 4px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.form-card input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+}
+
+.form-card .btn {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.form-footer {
+  margin-bottom: 0;
+  text-align: center;
+  font-size: 14px;
+}
+
+.error {
+  margin: 0 0 8px;
+  padding: 10px 12px 10px 28px;
+  background: #fdecea;
+  border-radius: 6px;
+  color: #b3261e;
+  font-size: 14px;
+}
+
+p.error {
+  padding-left: 12px;
+}
+
+.footer {
+  padding: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  border-top: 1px solid #e3e3e0;
+  background: #fff;
+}
