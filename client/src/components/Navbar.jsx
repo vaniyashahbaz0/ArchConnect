@@ -19,6 +19,10 @@ function Navbar() {
       </Link>
 
       <div className="nav-links">
+        <Link to="/portfolio">Portfolio</Link>
+
+        {user && user.role === 'admin' && <Link to="/admin/projects">Projects</Link>}
+
         {user ? (
           <>
             <Link to={dashboardLink}>Dashboard</Link>

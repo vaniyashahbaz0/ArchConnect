@@ -10,10 +10,14 @@ const projectSchema = new mongoose.Schema(
 
     description: {
       type: String,
+      required: true,
+      trim: true,
     },
 
     category: {
       type: String,
+      required: true,
+      enum: ['Residential', 'Commercial', 'Interior', 'Landscape', 'Other'],
     },
 
     status: {
@@ -22,7 +26,21 @@ const projectSchema = new mongoose.Schema(
       default: 'ongoing',
     },
 
+    location: {
+      type: String,
+      trim: true,
+    },
+
+    year: {
+      type: Number,
+    },
+
     images: [String],
+
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
   },
   { timestamps: true }
 );
