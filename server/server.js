@@ -8,6 +8,7 @@ import connectDB from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
 import testRoutes from './routes/testRoutes.js';
 import projectRoutes from './routes/projectRoutes.js';
+import consultationRoutes from './routes/consultationRoutes.js';
 
 const currentDir = path.dirname(fileURLToPath(import.meta.url));
 
@@ -22,6 +23,7 @@ app.use('/uploads', express.static(path.join(currentDir, 'uploads')));
 app.use('/api/auth', authRoutes);
 app.use('/api/test', testRoutes);
 app.use('/api/projects', projectRoutes);
+app.use('/api/consultations', consultationRoutes);
 
 app.get('/api/health', (req, res) => {
   const states = ['disconnected', 'connected', 'connecting', 'disconnecting'];
