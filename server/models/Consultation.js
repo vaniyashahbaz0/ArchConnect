@@ -1,5 +1,26 @@
 import mongoose from 'mongoose';
 
+const attachmentSchema = new mongoose.Schema(
+  {
+    originalName: {
+      type: String,
+    },
+
+    filename: {
+      type: String,
+    },
+
+    mimeType: {
+      type: String,
+    },
+
+    size: {
+      type: Number,
+    },
+  },
+  { _id: false }
+);
+
 const consultationSchema = new mongoose.Schema(
   {
     client: {
@@ -11,17 +32,35 @@ const consultationSchema = new mongoose.Schema(
     projectType: {
       type: String,
       required: true,
+      enum: ['Residential', 'Commercial', 'Interior', 'Landscape', 'Renovation', 'Other'],
+    },
+
+    title: {
+      type: String,
+      required: true,
+      trim: true,
     },
 
     description: {
       type: String,
+      required: true,
+      trim: true,
     },
 
     budget: {
       type: Number,
     },
 
-    attachments: [String],
+    location: {
+      type: String,
+      trim: true,
+    },
+
+    preferredStartDate: {
+      type: Date,
+    },
+
+    attachments: [attachmentSchema],
 
     status: {
       type: String,
