@@ -6,5 +6,6 @@ logs/
 *.log
 .DS_Store
 uploads/
+server/uploads/
 .claude/
 CLAUDE.md

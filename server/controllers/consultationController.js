@@ -1,5 +1,11 @@
+import path from 'path';
+import fs from 'fs';
 import { body, validationResult } from 'express-validator';
 import Consultation from '../models/Consultation.js';
+import {
+  consultationUploadFolder,
+  removeUploadedConsultationFiles,
+} from '../middleware/consultationUpload.js';
 
 const projectTypes = ['Residential', 'Commercial', 'Interior', 'Landscape', 'Renovation', 'Other'];
 
@@ -17,34 +23,53 @@ const pickConsultationFields = (data) => {
   const allowed = ['projectType', 'title', 'description', 'budget', 'location', 'preferredStartDate'];
 
   allowed.forEach((key) => {
-    if (data[key] !== undefined) {
+    if (data[key] !== undefined && data[key] !== '') {
       fields[key] = data[key];
     }
   });
 
-  if (Array.isArray(data.attachments)) {
-    fields.attachments = data.attachments.map((file) => ({
-      originalName: file.originalName,
-      filename: file.filename,
-      mimeType: file.mimeType,
-      size: file.size,
-    }));
+  return fields;
+};
+
+const getOwnerId = (consultation) => {
+  if (consultation.client && consultation.client._id) {
+    return consultation.client._id.toString();
   }
 
-  return fields;
+  return consultation.client.toString();
+};
+
+const getAttachmentsFromFiles = (files) => {
+  if (!files) return [];
+
+  return files.map((file) => ({
+    originalName: file.originalname,
+    filename: file.filename,
+    mimeType: file.mimetype,
+    size: file.size,
+  }));
 };
 
 export const createConsultation = async (req, res) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
+    removeUploadedConsultationFiles(req.files);
     return res.status(400).json({ message: errors.array()[0].msg, errors: errors.array() });
   }
 
-  const consultation = await Consultation.create({
-    ...pickConsultationFields(req.body),
-    client: req.user._id,
-  });
+  let consultation;
+
+  try {
+    consultation = await Consultation.create({
+      ...pickConsultationFields(req.body),
+      attachments: getAttachmentsFromFiles(req.files),
+      client: req.user._id,
+    });
+  } catch (error) {
+    removeUploadedConsultationFiles(req.files);
+    throw error;
+  }
 
   res.status(201).json(consultation);
 };
@@ -80,8 +105,7 @@ export const getConsultationById = async (req, res) => {
     return res.status(404).json({ message: 'Consultation not found' });
   }
 
-  const ownerId = consultation.client._id ? consultation.client._id.toString() : consultation.client.toString();
-  const isOwner = ownerId === req.user._id.toString();
+  const isOwner = getOwnerId(consultation) === req.user._id.toString();
   const isAdmin = req.user.role === 'admin';
 
   if (!isOwner && !isAdmin) {
@@ -89,4 +113,38 @@ export const getConsultationById = async (req, res) => {
   }
 
   res.json(consultation);
+};
+
+export const downloadConsultationAttachment = async (req, res) => {
+  if (!/^[a-fA-F0-9]{24}$/.test(req.params.id)) {
+    return res.status(404).json({ message: 'Consultation not found' });
+  }
+
+  const consultation = await Consultation.findById(req.params.id);
+
+  if (!consultation) {
+    return res.status(404).json({ message: 'Consultation not found' });
+  }
+
+  const isOwner = getOwnerId(consultation) === req.user._id.toString();
+  const isAdmin = req.user.role === 'admin';
+
+  if (!isOwner && !isAdmin) {
+    return res.status(403).json({ message: 'Access denied for your role' });
+  }
+
+  const requestedName = path.basename(req.params.filename);
+  const attachment = consultation.attachments.find((file) => file.filename === requestedName);
+
+  if (!attachment) {
+    return res.status(404).json({ message: 'File not found' });
+  }
+
+  const filePath = path.join(consultationUploadFolder, requestedName);
+
+  if (!fs.existsSync(filePath)) {
+    return res.status(404).json({ message: 'File not found' });
+  }
+
+  res.download(filePath, attachment.originalName);
 };
