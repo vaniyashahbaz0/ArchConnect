@@ -6,18 +6,31 @@ import api from '../api/axios'
 function AdminDashboard() {
   const { user } = useAuth()
   const [projectCount, setProjectCount] = useState(null)
+  const [consultationCount, setConsultationCount] = useState(null)
+  const [pendingCount, setPendingCount] = useState(null)
 
   useEffect(() => {
-    const loadCount = async () => {
+    const loadCounts = async () => {
       try {
         const response = await api.get('/projects')
         setProjectCount(response.data.length)
       } catch (err) {
         setProjectCount(null)
       }
+
+      try {
+        const response = await api.get('/consultations')
+        const list = response.data
+
+        setConsultationCount(list.length)
+        setPendingCount(list.filter((item) => item.status === 'Pending').length)
+      } catch (err) {
+        setConsultationCount(null)
+        setPendingCount(null)
+      }
     }
 
-    loadCount()
+    loadCounts()
   }, [])
 
   return (
@@ -31,6 +44,12 @@ function AdminDashboard() {
           <h3>Manage Projects</h3>
           <p className="dashboard-count">{projectCount === null ? '-' : projectCount}</p>
           <span>Total projects</span>
+        </Link>
+
+        <Link to="/admin/consultations" className="dashboard-card">
+          <h3>Consultations</h3>
+          <p className="dashboard-count">{consultationCount === null ? '-' : consultationCount}</p>
+          <span>{pendingCount === null ? '-' : pendingCount} pending</span>
         </Link>
       </div>
     </section>

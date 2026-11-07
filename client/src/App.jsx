@@ -11,6 +11,11 @@ import Portfolio from './pages/Portfolio'
 import ProjectDetail from './pages/ProjectDetail'
 import ManageProjects from './pages/admin/ManageProjects'
 import ProjectForm from './pages/admin/ProjectForm'
+import NewConsultation from './pages/client/NewConsultation'
+import MyConsultations from './pages/client/MyConsultations'
+import ConsultationDetail from './pages/client/ConsultationDetail'
+import ManageConsultations from './pages/admin/ManageConsultations'
+import AdminConsultationDetail from './pages/admin/AdminConsultationDetail'
 import NotFound from './pages/NotFound'
 
 function App() {
@@ -31,6 +36,33 @@ function App() {
             element={
               <ProtectedRoute roles={['client']}>
                 <ClientDashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/dashboard/consultations/new"
+            element={
+              <ProtectedRoute roles={['client']}>
+                <NewConsultation />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/dashboard/consultations"
+            element={
+              <ProtectedRoute roles={['client']}>
+                <MyConsultations />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/dashboard/consultations/:id"
+            element={
+              <ProtectedRoute roles={['client']}>
+                <ConsultationDetail />
               </ProtectedRoute>
             }
           />
@@ -67,6 +99,24 @@ function App() {
             element={
               <ProtectedRoute roles={['admin']}>
                 <ProjectForm />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/consultations"
+            element={
+              <ProtectedRoute roles={['admin']}>
+                <ManageConsultations />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/consultations/:id"
+            element={
+              <ProtectedRoute roles={['admin']}>
+                <AdminConsultationDetail />
               </ProtectedRoute>
             }
           />
