@@ -7,6 +7,8 @@ function AdminDashboard() {
   const { user } = useAuth()
   const [projectCount, setProjectCount] = useState(null)
 
+  const [pendingCount, setPendingCount] = useState(null)
+
   useEffect(() => {
     const loadCount = async () => {
       try {
@@ -17,7 +19,17 @@ function AdminDashboard() {
       }
     }
 
+    const loadPendingCount = async () => {
+      try {
+        const response = await api.get('/consultations', { params: { status: 'Pending' } })
+        setPendingCount(response.data.length)
+      } catch (err) {
+        setPendingCount(null)
+      }
+    }
+
     loadCount()
+    loadPendingCount()
   }, [])
 
   return (
@@ -31,6 +43,12 @@ function AdminDashboard() {
           <h3>Manage Projects</h3>
           <p className="dashboard-count">{projectCount === null ? '-' : projectCount}</p>
           <span>Total projects</span>
+        </Link>
+
+        <Link to="/admin/consultations" className="dashboard-card">
+          <h3>Consultations</h3>
+          <p className="dashboard-count">{pendingCount === null ? '-' : pendingCount}</p>
+          <span>Pending requests</span>
         </Link>
       </div>
     </section>

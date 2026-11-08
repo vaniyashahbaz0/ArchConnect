@@ -11,6 +11,10 @@ import Portfolio from './pages/Portfolio'
 import ProjectDetail from './pages/ProjectDetail'
 import ManageProjects from './pages/admin/ManageProjects'
 import ProjectForm from './pages/admin/ProjectForm'
+import NewConsultation from './pages/client/NewConsultation'
+import MyConsultations from './pages/client/MyConsultations'
+import ConsultationDetail from './pages/ConsultationDetail'
+import ManageConsultations from './pages/admin/ManageConsultations'
 import NotFound from './pages/NotFound'
 
 function App() {
@@ -67,6 +71,42 @@ function App() {
             element={
               <ProtectedRoute roles={['admin']}>
                 <ProjectForm />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/consultations"
+            element={
+              <ProtectedRoute roles={['client']}>
+                <MyConsultations />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/consultations/new"
+            element={
+              <ProtectedRoute roles={['client']}>
+                <NewConsultation />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/consultations/:id"
+            element={
+              <ProtectedRoute roles={['client', 'admin']}>
+                <ConsultationDetail />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/consultations"
+            element={
+              <ProtectedRoute roles={['admin']}>
+                <ManageConsultations />
               </ProtectedRoute>
             }
           />

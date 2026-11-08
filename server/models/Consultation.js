@@ -67,6 +67,11 @@ const consultationSchema = new mongoose.Schema(
       enum: ['Pending', 'Approved', 'Rejected', 'Completed'],
       default: 'Pending',
     },
+
+    adminNote: {
+      type: String,
+      trim: true,
+    },
   },
   { timestamps: true }
 );
