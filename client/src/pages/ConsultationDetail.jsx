@@ -164,6 +164,12 @@ function ConsultationDetail() {
         </div>
       )}
 
+      {!isAdmin && (
+        <Link to={`/appointments/new?consultation=${consultation._id}`} className="btn">
+          Book appointment for this request
+        </Link>
+      )}
+
       <h3>Attachments</h3>
 
       {consultation.attachments.length === 0 ? (

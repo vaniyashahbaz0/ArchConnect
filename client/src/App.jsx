@@ -15,6 +15,8 @@ import NewConsultation from './pages/client/NewConsultation'
 import MyConsultations from './pages/client/MyConsultations'
 import ConsultationDetail from './pages/ConsultationDetail'
 import ManageConsultations from './pages/admin/ManageConsultations'
+import MyAppointments from './pages/client/MyAppointments'
+import BookAppointment from './pages/client/BookAppointment'
 import NotFound from './pages/NotFound'
 
 function App() {
@@ -98,6 +100,24 @@ function App() {
             element={
               <ProtectedRoute roles={['client', 'admin']}>
                 <ConsultationDetail />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/appointments"
+            element={
+              <ProtectedRoute roles={['client']}>
+                <MyAppointments />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/appointments/new"
+            element={
+              <ProtectedRoute roles={['client']}>
+                <BookAppointment />
               </ProtectedRoute>
             }
           />

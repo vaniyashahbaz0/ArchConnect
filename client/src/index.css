@@ -538,6 +538,17 @@ p.error {
   color: #1e6b2f;
 }
 
+.badge-Cancelled {
+  background: #ececec;
+  color: #555;
+}
+
+.slot-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
 .file-list {
   margin: 8px 0 0;
   padding-left: 20px;

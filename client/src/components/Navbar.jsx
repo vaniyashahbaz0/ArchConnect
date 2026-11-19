@@ -27,6 +27,8 @@ function Navbar() {
 
         {user && user.role === 'client' && <Link to="/consultations">My Requests</Link>}
 
+        {user && user.role === 'client' && <Link to="/appointments">Appointments</Link>}
+
         {user ? (
           <>
             <Link to={dashboardLink}>Dashboard</Link>
