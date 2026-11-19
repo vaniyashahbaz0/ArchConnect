@@ -25,6 +25,8 @@ function Navbar() {
 
         {user && user.role === 'admin' && <Link to="/admin/consultations">Consultations</Link>}
 
+        {user && user.role === 'admin' && <Link to="/admin/appointments">Appointments</Link>}
+
         {user && user.role === 'client' && <Link to="/consultations">My Requests</Link>}
 
         {user && user.role === 'client' && <Link to="/appointments">Appointments</Link>}

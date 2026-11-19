@@ -72,6 +72,10 @@ const consultationSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+
+    statusUpdatedAt: {
+      type: Date,
+    },
   },
   { timestamps: true }
 );

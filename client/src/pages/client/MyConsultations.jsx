@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import api from '../../api/axios'
+import StatusBadge from '../../components/StatusBadge'
 
 function MyConsultations() {
   const [consultations, setConsultations] = useState([])
@@ -69,7 +70,7 @@ function MyConsultations() {
                 </p>
               </div>
 
-              <span className={`badge badge-${item.status}`}>{item.status}</span>
+              <StatusBadge status={item.status} />
 
               {item.status === 'Pending' &&
                 (confirmId === item._id ? (

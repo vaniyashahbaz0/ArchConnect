@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import api from '../../api/axios'
+import StatusBadge from '../../components/StatusBadge'
 import { formatDate, isUpcoming } from '../../utils/appointmentDate'
 
 function MyAppointments() {
@@ -78,9 +79,13 @@ function MyAppointments() {
                 )}
 
                 {item.adminNote && <p>Note from admin: {item.adminNote}</p>}
+
+                {item.statusUpdatedAt && (
+                  <p>Last updated {new Date(item.statusUpdatedAt).toLocaleDateString()}</p>
+                )}
               </div>
 
-              <span className={`badge badge-${item.status}`}>{item.status}</span>
+              <StatusBadge status={item.status} />
 
               {isUpcoming(item) &&
                 (confirmId === item._id ? (

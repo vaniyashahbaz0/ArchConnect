@@ -543,6 +543,13 @@ p.error {
   color: #555;
 }
 
+.status-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 180px;
+}
+
 .slot-list {
   display: flex;
   flex-wrap: wrap;

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import api from '../../api/axios'
+import StatusBadge from '../../components/StatusBadge'
 
 const statuses = ['All', 'Pending', 'Approved', 'Rejected', 'Completed']
 
@@ -78,7 +79,7 @@ function ManageConsultations() {
                   <td>{new Date(item.createdAt).toLocaleDateString()}</td>
 
                   <td>
-                    <span className={`badge badge-${item.status}`}>{item.status}</span>
+                    <StatusBadge status={item.status} />
                   </td>
 
                   <td>

@@ -1,6 +1,7 @@
 import { body, query, validationResult } from 'express-validator';
 import Appointment from '../models/Appointment.js';
 import Consultation from '../models/Consultation.js';
+import { getStatusError } from '../utils/statusRules.js';
 
 const timeSlots = ['10:00', '11:00', '12:00', '14:00', '15:00', '16:00'];
 const meetingTypes = ['In Person', 'Online'];
@@ -209,6 +210,46 @@ export const cancelAppointment = async (req, res) => {
   }
 
   appointment.status = 'Cancelled';
+  appointment.statusUpdatedAt = new Date();
+  await appointment.save();
+
+  res.json(appointment);
+};
+
+export const updateAppointmentStatus = async (req, res) => {
+  if (!isValidId(req.params.id)) {
+    return res.status(404).json({ message: 'Appointment not found' });
+  }
+
+  const { status, adminNote } = req.body;
+
+  if (!statuses.includes(status)) {
+    return res.status(400).json({ message: 'Status must be one of: ' + statuses.join(', ') });
+  }
+
+  if (adminNote !== undefined && typeof adminNote !== 'string') {
+    return res.status(400).json({ message: 'Admin note must be text' });
+  }
+
+  const appointment = await Appointment.findById(req.params.id);
+
+  if (!appointment) {
+    return res.status(404).json({ message: 'Appointment not found' });
+  }
+
+  const statusError = getStatusError('appointment', appointment.status, status);
+
+  if (statusError) {
+    return res.status(400).json({ message: statusError });
+  }
+
+  appointment.status = status;
+  appointment.statusUpdatedAt = new Date();
+
+  if (adminNote !== undefined) {
+    appointment.adminNote = adminNote;
+  }
+
   await appointment.save();
 
   res.json(appointment);

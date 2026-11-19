@@ -6,6 +6,7 @@ import {
   getAllAppointments,
   getAppointmentById,
   cancelAppointment,
+  updateAppointmentStatus,
   createAppointmentValidation,
   availableValidation,
   listAppointmentsValidation,
@@ -20,5 +21,6 @@ router.get('/my', protect, allowRoles('client'), getMyAppointments);
 router.get('/', protect, allowRoles('admin'), listAppointmentsValidation, getAllAppointments);
 router.get('/:id', protect, getAppointmentById);
 router.patch('/:id/cancel', protect, allowRoles('client'), cancelAppointment);
+router.patch('/:id/status', protect, allowRoles('admin'), updateAppointmentStatus);
 
 export default router;

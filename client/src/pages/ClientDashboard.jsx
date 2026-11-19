@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import api from '../api/axios'
+import StatusBadge from '../components/StatusBadge'
 import { formatDate, isUpcoming } from '../utils/appointmentDate'
 
 const statuses = ['Pending', 'Approved', 'Rejected', 'Completed']
@@ -57,7 +58,7 @@ function ClientDashboard() {
         {statuses.map((status) => (
           <div key={status} className="status-count">
             <strong>{countByStatus(status)}</strong>
-            <span className={`badge badge-${status}`}>{status}</span>
+            <StatusBadge status={status} />
           </div>
         ))}
       </div>
@@ -80,7 +81,7 @@ function ClientDashboard() {
             <p>{nextAppointment.meetingType}</p>
           </div>
 
-          <span className={`badge badge-${nextAppointment.status}`}>{nextAppointment.status}</span>
+          <StatusBadge status={nextAppointment.status} />
 
           <Link to="/appointments" className="btn btn-outline btn-small">
             View All
