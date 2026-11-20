@@ -518,6 +518,17 @@ p.error {
   color: #666;
 }
 
+.dashboard-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 20px 0 32px;
+}
+
+.dashboard-section {
+  margin-top: 36px;
+}
+
 .badge-Pending {
   background: #fff3d9;
   color: #8a5b00;
