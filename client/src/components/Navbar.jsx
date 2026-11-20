@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import NotificationBell from './NotificationBell'
 
 function Navbar() {
   const { user, logout } = useAuth()
@@ -33,6 +34,7 @@ function Navbar() {
 
         {user ? (
           <>
+            <NotificationBell />
             <Link to={dashboardLink}>Dashboard</Link>
             <button onClick={handleLogout} className="btn btn-outline">
               Logout
