@@ -4,6 +4,7 @@ import { body, validationResult } from 'express-validator';
 import { consultationFolder } from '../middleware/consultationUpload.js';
 import Consultation from '../models/Consultation.js';
 import { getStatusError } from '../utils/statusRules.js';
+import { notifyUser, notifyAdmins } from '../utils/createNotification.js';
 
 const projectTypes = ['Residential', 'Commercial', 'Interior', 'Landscape', 'Renovation', 'Other'];
 
@@ -78,6 +79,12 @@ export const createConsultation = async (req, res) => {
     await deleteFiles(uploadedFiles.map((file) => file.filename));
     throw error;
   }
+
+  await notifyAdmins(
+    'consultation',
+    `New consultation request from ${req.user.name}`,
+    `/consultations/${consultation._id}`
+  );
 
   res.status(201).json(consultation);
 };
@@ -185,6 +192,13 @@ export const updateConsultationStatus = async (req, res) => {
   }
 
   await consultation.save();
+
+  await notifyUser(
+    consultation.client,
+    'consultation',
+    `Your consultation status has been updated to ${status}`,
+    `/consultations/${consultation._id}`
+  );
 
   res.json(consultation);
 };

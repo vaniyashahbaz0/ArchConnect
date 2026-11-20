@@ -2,6 +2,7 @@ import { body, query, validationResult } from 'express-validator';
 import Appointment from '../models/Appointment.js';
 import Consultation from '../models/Consultation.js';
 import { getStatusError } from '../utils/statusRules.js';
+import { notifyUser, notifyAdmins } from '../utils/createNotification.js';
 
 const timeSlots = ['10:00', '11:00', '12:00', '14:00', '15:00', '16:00'];
 const meetingTypes = ['In Person', 'Online'];
@@ -114,6 +115,12 @@ export const createAppointment = async (req, res) => {
     notes,
   });
 
+  await notifyAdmins(
+    'appointment',
+    `New appointment booked by ${req.user.name}`,
+    '/admin/appointments'
+  );
+
   res.status(201).json(appointment);
 };
 
@@ -213,6 +220,12 @@ export const cancelAppointment = async (req, res) => {
   appointment.statusUpdatedAt = new Date();
   await appointment.save();
 
+  await notifyAdmins(
+    'appointment',
+    `Appointment cancelled by ${req.user.name}`,
+    '/admin/appointments'
+  );
+
   res.json(appointment);
 };
 
@@ -251,6 +264,21 @@ export const updateAppointmentStatus = async (req, res) => {
   }
 
   await appointment.save();
+
+  if (req.user.role === 'admin') {
+    await notifyUser(
+      appointment.client,
+      'appointment',
+      `Your appointment status has been updated to ${status}`,
+      '/appointments'
+    );
+  } else {
+    await notifyAdmins(
+      'appointment',
+      `Appointment status updated to ${status} by ${req.user.name}`,
+      '/admin/appointments'
+    );
+  }
 
   res.json(appointment);
 };
