@@ -12,6 +12,7 @@ import consultationRoutes from './routes/consultationRoutes.js';
 import appointmentRoutes from './routes/appointmentRoutes.js';
 import notificationRoutes from './routes/notificationRoutes.js';
 import dashboardRoutes from './routes/dashboardRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 
 const currentDir = path.dirname(fileURLToPath(import.meta.url));
 
@@ -30,6 +31,7 @@ app.use('/api/consultations', consultationRoutes);
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/users', userRoutes);
 
 app.get('/api/health', (req, res) => {
   const states = ['disconnected', 'connected', 'connecting', 'disconnecting'];

@@ -18,6 +18,8 @@ import ManageConsultations from './pages/admin/ManageConsultations'
 import MyAppointments from './pages/client/MyAppointments'
 import BookAppointment from './pages/client/BookAppointment'
 import ManageAppointments from './pages/admin/ManageAppointments'
+import ManageClients from './pages/admin/ManageClients'
+import ClientDetail from './pages/admin/ClientDetail'
 import Notifications from './pages/Notifications'
 import NotFound from './pages/NotFound'
 
@@ -138,6 +140,24 @@ function App() {
             element={
               <ProtectedRoute roles={['admin']}>
                 <ManageAppointments />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/clients"
+            element={
+              <ProtectedRoute roles={['admin']}>
+                <ManageClients />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/clients/:id"
+            element={
+              <ProtectedRoute roles={['admin']}>
+                <ClientDetail />
               </ProtectedRoute>
             }
           />

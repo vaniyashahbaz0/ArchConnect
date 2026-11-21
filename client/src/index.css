@@ -529,6 +529,21 @@ p.error {
   margin-top: 36px;
 }
 
+.search-form {
+  display: flex;
+  gap: 8px;
+  max-width: 440px;
+  margin-bottom: 20px;
+}
+
+.search-form input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
 .badge-Pending {
   background: #fff3d9;
   color: #8a5b00;

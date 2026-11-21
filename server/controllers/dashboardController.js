@@ -1,5 +1,7 @@
 import Consultation from '../models/Consultation.js';
 import Appointment from '../models/Appointment.js';
+import Project from '../models/Project.js';
+import User from '../models/User.js';
 
 const getToday = () => {
   const now = new Date();
@@ -72,5 +74,70 @@ export const getClientDashboard = async (req, res) => {
     consultationCounts: counts,
     upcomingAppointments,
     recentUpdates,
+  });
+};
+
+export const getAdminDashboard = async (req, res) => {
+  const projectCount = await Project.countDocuments();
+  const clientCount = await User.countDocuments({ role: 'client' });
+
+  const consultations = await Consultation.find().select('status');
+  const consultationCounts = {
+    Pending: 0,
+    Approved: 0,
+    Rejected: 0,
+    Completed: 0,
+    total: consultations.length,
+  };
+
+  consultations.forEach((item) => {
+    if (consultationCounts[item.status] !== undefined) {
+      consultationCounts[item.status] += 1;
+    }
+  });
+
+  const appointments = await Appointment.find().select('status');
+  const appointmentCounts = {
+    Pending: 0,
+    Approved: 0,
+    Rejected: 0,
+    Completed: 0,
+    Cancelled: 0,
+    total: appointments.length,
+  };
+
+  appointments.forEach((item) => {
+    if (appointmentCounts[item.status] !== undefined) {
+      appointmentCounts[item.status] += 1;
+    }
+  });
+
+  const recentConsultations = await Consultation.find()
+    .populate('client', 'name email')
+    .sort({ createdAt: -1 })
+    .limit(5);
+
+  const upcomingAppointments = await Appointment.find({
+    date: { $gte: getToday() },
+    status: { $ne: 'Cancelled' },
+  })
+    .populate('client', 'name email')
+    .populate('consultation', 'title')
+    .sort({ date: 1, timeSlot: 1 })
+    .limit(5);
+
+  res.json({
+    totals: {
+      projects: projectCount,
+      clients: clientCount,
+      consultations: consultationCounts,
+      appointments: appointmentCounts,
+    },
+    projects: projectCount,
+    clients: clientCount,
+    consultationCounts,
+    appointmentCounts,
+    recentConsultations,
+    upcomingAppointments,
   });
 };
