@@ -518,6 +518,32 @@ p.error {
   color: #666;
 }
 
+.dashboard-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 20px 0 32px;
+}
+
+.dashboard-section {
+  margin-top: 36px;
+}
+
+.search-form {
+  display: flex;
+  gap: 8px;
+  max-width: 440px;
+  margin-bottom: 20px;
+}
+
+.search-form input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
 .badge-Pending {
   background: #fff3d9;
   color: #8a5b00;
@@ -536,6 +562,24 @@ p.error {
 .badge-Completed {
   background: #e3f3e6;
   color: #1e6b2f;
+}
+
+.badge-Cancelled {
+  background: #ececec;
+  color: #555;
+}
+
+.status-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 180px;
+}
+
+.slot-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .file-list {
@@ -639,4 +683,194 @@ p.error {
 .status-count strong {
   display: block;
   font-size: 28px;
+}
+
+.notification-bell-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.notification-bell-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  background: transparent;
+  color: #1f4e5f;
+  cursor: pointer;
+}
+
+.notification-bell-btn:hover {
+  background: #e8f0f3;
+}
+
+.notification-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 9px;
+  background: #b3261e;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.notification-dropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 320px;
+  background: #fff;
+  border: 1px solid #e3e3e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.notification-dropdown-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e3e3e0;
+}
+
+.notification-dropdown-header h4 {
+  margin: 0;
+  font-size: 15px;
+}
+
+.notification-dropdown-list {
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+.notification-dropdown-empty {
+  margin: 0;
+  padding: 24px 16px;
+  text-align: center;
+  color: #777;
+  font-size: 14px;
+}
+
+.notification-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0f0ed;
+  cursor: pointer;
+  background: #fff;
+}
+
+.notification-item:hover {
+  background: #f7f7f5;
+}
+
+.notification-item.unread {
+  background: #f4f8fa;
+}
+
+.notification-item.unread:hover {
+  background: #eaf2f5;
+}
+
+.notification-item-content {
+  flex: 1;
+}
+
+.notification-item-message {
+  font-size: 14px;
+  color: #222;
+  margin-bottom: 4px;
+}
+
+.notification-item.unread .notification-item-message {
+  font-weight: 600;
+}
+
+.notification-item-time {
+  font-size: 12px;
+  color: #777;
+}
+
+.unread-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #1f4e5f;
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+
+.notification-dropdown-footer {
+  padding: 10px 16px;
+  text-align: center;
+  border-top: 1px solid #e3e3e0;
+  background: #fafaf9;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.notification-dropdown-footer a {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f4e5f;
+}
+
+.notifications-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.notification-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  background: #fff;
+  border: 1px solid #e3e3e0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.notification-card:hover {
+  border-color: #1f4e5f;
+}
+
+.notification-card.unread {
+  background: #f4f8fa;
+  border-left: 4px solid #1f4e5f;
+}
+
+.notification-card-info {
+  flex: 1;
+}
+
+.notification-card-info h3 {
+  margin: 0 0 4px;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.notification-card.unread .notification-card-info h3 {
+  font-weight: 700;
+}
+
+.notification-card-info p {
+  margin: 0;
+  font-size: 13px;
+  color: #777;
 }

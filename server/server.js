@@ -9,6 +9,10 @@ import authRoutes from './routes/authRoutes.js';
 import testRoutes from './routes/testRoutes.js';
 import projectRoutes from './routes/projectRoutes.js';
 import consultationRoutes from './routes/consultationRoutes.js';
+import appointmentRoutes from './routes/appointmentRoutes.js';
+import notificationRoutes from './routes/notificationRoutes.js';
+import dashboardRoutes from './routes/dashboardRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 
 const currentDir = path.dirname(fileURLToPath(import.meta.url));
 
@@ -24,6 +28,10 @@ app.use('/api/auth', authRoutes);
 app.use('/api/test', testRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/consultations', consultationRoutes);
+app.use('/api/appointments', appointmentRoutes);
+app.use('/api/notifications', notificationRoutes);
+app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/users', userRoutes);
 
 app.get('/api/health', (req, res) => {
   const states = ['disconnected', 'connected', 'connecting', 'disconnecting'];

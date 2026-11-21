@@ -3,6 +3,8 @@ import path from 'path';
 import { body, validationResult } from 'express-validator';
 import { consultationFolder } from '../middleware/consultationUpload.js';
 import Consultation from '../models/Consultation.js';
+import { getStatusError } from '../utils/statusRules.js';
+import { notifyUser, notifyAdmins } from '../utils/createNotification.js';
 
 const projectTypes = ['Residential', 'Commercial', 'Interior', 'Landscape', 'Renovation', 'Other'];
 
@@ -77,6 +79,12 @@ export const createConsultation = async (req, res) => {
     await deleteFiles(uploadedFiles.map((file) => file.filename));
     throw error;
   }
+
+  await notifyAdmins(
+    'consultation',
+    `New consultation request from ${req.user.name}`,
+    `/consultations/${consultation._id}`
+  );
 
   res.status(201).json(consultation);
 };
@@ -170,13 +178,27 @@ export const updateConsultationStatus = async (req, res) => {
     return res.status(404).json({ message: 'Consultation not found' });
   }
 
+  const statusError = getStatusError('consultation', consultation.status, status);
+
+  if (statusError) {
+    return res.status(400).json({ message: statusError });
+  }
+
   consultation.status = status;
+  consultation.statusUpdatedAt = new Date();
 
   if (adminNote !== undefined) {
     consultation.adminNote = adminNote;
   }
 
   await consultation.save();
+
+  await notifyUser(
+    consultation.client,
+    'consultation',
+    `Your consultation status has been updated to ${status}`,
+    `/consultations/${consultation._id}`
+  );
 
   res.json(consultation);
 };
