@@ -12,6 +12,13 @@ function Portfolio() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
+  const hasActiveFilters = Boolean(category || status)
+
+  const clearFilters = () => {
+    setCategory('')
+    setStatus('')
+  }
+
   useEffect(() => {
     const loadProjects = async () => {
       setLoading(true)
@@ -83,7 +90,16 @@ function Portfolio() {
       {loading ? (
         <p>Loading...</p>
       ) : projects.length === 0 ? (
-        <p>No projects yet</p>
+        hasActiveFilters ? (
+          <div className="empty-filters">
+            <p>No projects match these filters</p>
+            <button type="button" onClick={clearFilters} className="btn btn-outline">
+              Clear filters
+            </button>
+          </div>
+        ) : (
+          <p>No projects yet</p>
+        )
       ) : (
         <div className="project-grid">
           {projects.map((project) => (
