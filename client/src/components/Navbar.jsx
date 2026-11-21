@@ -11,6 +11,14 @@ function Navbar() {
     navigate('/')
   }
 
+  const handleContactClick = (e) => {
+    const contactElement = document.getElementById('contact')
+    if (contactElement) {
+      e.preventDefault()
+      contactElement.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
   const dashboardLink = user && user.role === 'admin' ? '/admin' : '/dashboard'
 
   return (
@@ -20,6 +28,7 @@ function Navbar() {
       </Link>
 
       <div className="nav-links">
+        <Link to="/">Home</Link>
         <Link to="/portfolio">Portfolio</Link>
 
         {user && user.role === 'admin' && <Link to="/admin/projects">Projects</Link>}
@@ -44,6 +53,9 @@ function Navbar() {
           </>
         ) : (
           <>
+            <Link to="/#contact" onClick={handleContactClick}>
+              Contact
+            </Link>
             <Link to="/login">Login</Link>
             <Link to="/register" className="btn">
               Register
